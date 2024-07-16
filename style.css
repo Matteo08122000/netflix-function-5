@@ -1,0 +1,218 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #141414;
+  min-width: 320px;
+  max-width: 2560px;
+}
+
+.img-Netflix {
+  width: 110px;
+}
+
+.Color-nav {
+  background-color: #141414;
+}
+
+.My-Class-span {
+  color: #7a7b7c;
+}
+
+span:hover {
+  color: white;
+  cursor: pointer;
+}
+
+.Icon {
+  color: white;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.user-Net {
+  width: 25px;
+}
+
+.MY-Class-spantwo {
+  font-size: 13px;
+}
+
+.dropdown-toggle {
+  color: white;
+}
+
+.Drop-myClass {
+  border: 10px solid white;
+}
+
+.Btn-Off {
+  color: red;
+  background-color: #141414;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  display: flex;
+}
+
+.offcanvas-body {
+  background-color: #141414;
+}
+
+.offcanvas-header {
+  background-color: #141414;
+  color: red;
+}
+
+.list-group li {
+  background-color: #141414;
+  color: red;
+  cursor: pointer;
+  width: 150px;
+}
+
+.list-group input {
+  background-color: #141414;
+  color: red;
+  width: 150px;
+}
+
+.Or-class {
+  font-size: 1.1em;
+}
+
+.Icon-Net {
+  width: 30px;
+  cursor: pointer;
+}
+
+.Movie-Card {
+  width: 250px;
+  height: 200px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.Movie-Card:hover {
+  transform: scale(1.3);
+}
+
+.swiper-slide {
+  width: 250px !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+}
+
+.hide-section {
+  visibility: hidden;
+}
+
+.Icon-Social ion-icon {
+  width: 23px;
+  height: 20px;
+  color: #808080;
+  cursor: pointer;
+}
+
+.Btn-Service {
+  width: 110px;
+  height: 30px;
+  background-color: #141414;
+  color: #808080;
+  border: 2px solid #808080;
+  font-size: 15px;
+  padding: 4px, 4px, 4px, 4px;
+}
+
+.list-unstyled {
+  color: #808080;
+  cursor: pointer;
+}
+
+.list-unstyled-p {
+  color: #808080;
+  font-size: 13px;
+}
+
+.Movie-Card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.Movie-Card:hover {
+  transform: scale(1.2);
+}
+
+.movie-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background-color: #141414;
+  color: white;
+  transform: translateY(100%);
+  transition: transform 0.1s ease-in-out;
+}
+
+.Movie-Card:hover .movie-info {
+  transform: translateY(0);
+}
+
+.Virgin {
+  width: 250px;
+  display: block;
+}
+
+.container-VR {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.container-VR h2 {
+  font-size: 15px;
+}
+
+.container-VR h3 {
+  font-size: 15px;
+  font-family: "Arsenal SC", sans-serif;
+}
+
+.container-VR .plus {
+  width: 40px;
+  height: 20px;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+.Name-user {
+  background-color: black;
+  color: white;
+}
+
+.btn-genre {
+  background-color: #141414;
+  color: white;
+  border: 1px solid #747474;
+}
+
+.search-input {
+  display: none;
+  margin-right: 10px;
+}
+.popover-body {
+  color: white;
+}
+/**/

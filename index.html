@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Netflix-Clone</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arsenal+SC:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css" />
+    </head>
+  <body>
+    <!--
+      <div></div> -->
+
+<!--Creazione nav tramite classi bootstrap contenente solo in mobile un menu off-canvas-->
+
+      <nav class="container-fluid Color-nav  p-3">
+        <div class="row">
+            <div class=" col-6 col-md-6 d-flex align-items-center gap-3 ">
+              
+    <button class="Btn-Off d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+      <ion-icon name="menu-outline"></ion-icon>
+    </button>
+
+    
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Welcome</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="list-group list-unstyled">
+              <li>Katerina</li>
+              <li>Filippo</li>
+              <li>Marco</li>
+            </ul>
+        </div>
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Choose What to Watch</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="list-group">
+            <li class="list-group-item" id="filmItem">Film</li>
+            <li class="list-group-item" id="seriesItem">Series</li>
+        </ul>
+        <div id="resultsContainer" class="mt-3">
+        </div>
+    </div>
+    
+    </div>
+            <img class="img-Netflix " src="./assets/imgs/Netflix_Logo_RGB.png" alt="">
+                <div class=" My-Class-span d-none d-md-none align-items-center d-lg-flex gap-4 ">
+                    <span>Home</span>
+                    <span>TV Shows</span>
+                    <span>Movies</span>
+                    <span>Recently Added</span>
+                    <span>My List</span>
+                </div> 
+            </div>
+            <div class="col-6 col-md-6 d-flex align-items-center justify-content-end gap-3">
+                <ion-icon class="Icon d-sm-flex justify-content-sm-end" name="search" id="search-icon"></ion-icon>
+                <input type="text" class="form-control search-input" id="search-input" placeholder="Cerca...">
+                <span class="My-Class-span MY-Class-spantwo d-none d-md-flex d-lg-flex">KIDS</span>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#notificationModal">
+                    <ion-icon class="Icon" name="notifications" id="notification-icon"></ion-icon>
+                </a>
+                <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="notificationModalLabel">Notifiche</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                There are no notifications for you.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <img class="user-Net d-none d-md-flex" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMwAAADACAMAAAB/Pny7AAAAb1BMVEUNfoD///8Ae30Adnj7/f0AcHLt9PSiw8P2+vpTnZ7y+Pjl8PCBsrMAdHdMl5kxioy+29upzc7U5OS91tdaoqN3qKmIr7CJubqSvb6x0dIxhIZEjI48h4hhoKGaxMXO5OR6tbZvrrA9k5Uah4nK2tuXb2ZTAAAD90lEQVR4nO3bYXeqIBwGcAVyJqaJOTGHpvb9P+PVWlsmnVZ4cTvn+b2698X47xkIKug4AAAAAAAAAAAAAAAAAAAAAAAAALMiJwuVduYs3Te1L6Oo3DvW8/QFP8r1jKVJrKraZ8ytKxVbjUOcOEu4y1hQS9XNUZmqred+YmlmMQ1xDttLZZcnETVvMePuFR46ttKQuPKuS4udaZpNOGrQdb3cUt+QfeWPS/O1WRqiuHuDZ5bChP5taVGalCZdetug625jK2kiMS2dmIwK2kw6pp8FQith5LSyy00mAVpoWnQTG3PAvtZUZm+blxsk8VbTosuNhu4PS3/oKrvp639HOr38T9YWwuy0lUX7epgs0Da5sxDmoA8TIczgFw6z18OQWDeluIGNCaDUhtka3G4SzZrZt7i3MTVrB0Vhss7c3pmd2Fk0K01lrgzCaMeZwbh9pnSk6ZrUqEnaTLrGt9MxuvnM9LZ5k9/Mzqyy9giQsHHpQL1+M3NukuSjvvEqO/fMQ+m4GD0EeKFhlr7JzU58dQ4TIbX52CzFV+d42/VqhjZpm6fCY77PU9nafaFBoreU+z7zRBrG5q8ATm1SJ8re399VZ7FbLqU71VfOIme+0oTQwRJvAZerDAAAAAAAAAAAAPAyQpc6WDk7Qh2VZdEyceat2reWFdzzRD7L4cYni9Ouo/NsQQz6XknPO5yBnK3RHxdvi1qkajNLnP5aUenX7p3RfvMraHPaamNFa77XRVZOU1/vBkrb4+yyd+fldGN08fRRwpsd9MpumFVyVTuPXp0L+ol4r6aH96qZf9sH6OhwpZeo54+LD0fm96oSbJLFz+xeM/TmpCirpSqf2JPsr3inVPl2cnh2aCuxtnN/Nhpmn3PQUWYtofRRD532TjsVJrX+bFhgO4tDWs3flHl1kqto79xLNORwulKFw2a5NonrFZn9NZNK3VmofrxzkVZStR1drVb0YkOH/5IuyvIqFVx/9nD46bTpNkvczSjtqduhg3yfcyGORXU4NOvBrjmEb4kQgnuBP73gvweYiq19hTBCSHzQnBcfhQqCwDvp/8HuhzjjibL/7c51HO25u5fwsF2mU77jbEhzb7A9I0h3q0UulUmcXRHcmZl+hAVCtjPefZuhq07W92baB3xey/g3dMq34VhSdXw6TyCOcoFDVA+R4YFEFj/uoGE1SsL28e3CQvrFvWszmaTi7pL4iR8LmamY/NYkZ6c3K3GUhbLY8v5p/mptYaxfcXgfowqzqOxm/cT0/yHDiHPijzJSTZiHb2cyzA9KReXH/g++Tbp8Wfz1W5PPL37/VgwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPi9/gH7gDBYPxaZ2QAAAABJRU5ErkJggg==" alt="">
+                <a class="dropdown-toggle d-none d-md-flex" href="#" role="button" data-bs-toggle="dropdown"></a>
+                <ul class="dropdown-menu bg-black">
+                  <li><a class="dropdown-item Name-user" href="#">Katerina</a></li>
+                  <li><a class="dropdown-item Name-user" href="#">Filippo</a></li>
+                  <li><a class="dropdown-item Name-user" href="#">Marco</a></li>
+                </ul>
+              </div>
+      </div>
+    
+      </nav>
+<!--Creazione header tramite classi bootstrap contiene titolo principale-->
+<header class="container-fluid p-3 pe-3 ps-4 pe-4">
+         <div class="row">
+          <div class="col-10 d-flex align-items-center ">
+            <div class="text-white d-flex align-items-center gap-4">
+              <h1>
+                  TV Shows
+              </h1>
+<!--Implementazione del tag select che mi permette di poter scegliere film o serie per genere ovviamente implementato con js-->
+              <select id="genre" class="btn-genre">
+                <option value="all">All</option>
+                <option value="history">History</option>
+                <option value="romantic">Romantic</option>
+                <option value="drama">Drama</option>
+              </select>
+        
+          </div>
+        </div>
+<!--Implementazione delle icone importate che svolgono la  loro funzione tramite js -->
+        <div class="col-2 d-flex align-items-center justify-content-end">
+            <div class="d-flex align-items-center">
+              <div class="border custom-size-icon-header d-none justify-content-center align-items-center d-md-flex">
+                <a href="#" id="menuIcon">
+                  <ion-icon class="text-white Icon-Net" name="menu-outline"></ion-icon>
+                </a>
+              </div>
+              <div class="border custom-size-icon-header d-none justify-content-center align-items-center d-md-flex">
+                <a href="#" id="gridIcon">
+                  <ion-icon class="text-white Icon-Net" name="grid-outline"></ion-icon>
+                </a>
+              </div>
+            </div>
+        </div>
+ 
+    </div>
+</header>
+ <!--Implementazione della prima section contenente classi bootstrap con titolo per sezione card-->
+ <section class="container-fluid mt-2 text-white ps-4">
+    <div class="history row">
+        <div class="col">
+            <h2 class="fs-4 mb-4 ">Trending Now</h2>
+        </div>
+    </div>
+
+    <!--Crezione classe history che mi permette di far funzionare la select tramite js riconoscendo il genere-->
+    <!--Implementazione classe hide-section che mi permette di animare allo scroll crendo una funzione in js -->
+    <!--Implementazione classe animate-on scroll utilizzando observe in js-->
+    <div class="history row animate-on-scroll hide-section">
+        <div class="swiper ps-3">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/14.png" alt="">
+                        <div class="movie-info">
+                            <!--in questa parte di codice implemento il tag video dove riesco a far funzionare all hover sulla card la riproduzione del trailer importato sul mio pc-->
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Self-made la vita di Madam C.J. Walker  Trailer ufficiale  Netflix Italia.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Self Made</h2>
+                                <h3>(1 stagione)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/9.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/The English Game  Trailer ufficiale  Netflix Italia.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>English Game</h2>
+                                <h3>(1 stagione)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/15.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Freud  Trailer ufficiale  Netflix Italia.mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Freud</h2>
+                                <h3>(1 stagione)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/4.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/The Place (2017) Trailer HD.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>The Place</h2>
+                                <h3>(1 stagione)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100"src="assets/imgs/movies/10.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/IL METODO KOMINSKY  Trailer ITA della serie Netflix con Michael Douglas.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Kominsky</h2>
+                                <h3>(3 stagioni)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/14.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Self-made la vita di Madam C.J. Walker  Trailer ufficiale  Netflix Italia.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Self Made</h2>
+                                <h3>(1 stagione)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/9.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/The English Game  Trailer ufficiale  Netflix Italia.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>English Game</h2>
+                                <h3>(1 stagione)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/15.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Freud  Trailer ufficiale  Netflix Italia.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Freud</h2>
+                                <h3>(1 stagione)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                                </div>
+                        </div> 
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/4.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/The Place (2017) Trailer HD.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>The Place</h2>
+                                <h3>(1 stagione)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                
+            </div>
+
+            <!--tramite questo passaggio importante lo swiper riesce a muovere le card tramite due freccie direzionali sinistra/destra-->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+</section>
+<!--in questa fase ripeto la prima sezione cambiando titolo img card e trailer video -->
+<section class="container-fluid  text-white p-4">
+    <div class="romantic row">
+        <div class="col">
+            <h2 class="fs-4 mb-4 ">Watch it Again</h2>
+        </div>
+    </div>
+
+    <div class="romantic row animate-on-scroll hide-section">
+        <div class="swiper ps-3">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/11.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Ricatto damore trailer ita.mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Patto d'amore</h2>
+                                <h3>(1h 48min)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                                
+                               
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Altre card... -->
+            
+    
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/8.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Virgin River (Stagione 5)  Trailer in italiano  Netflix.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Virgin River</h2>
+                                <h3>(5 stagioni)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/13.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Collateral Beauty - Teaser Trailer Italiano Ufficiale  HD.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Collateral Beauty</h2>
+                                <h3>(1h 37min)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/12.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/The House of Flowers _ Official Trailer  [HD] (2018).mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>House Flowers</h2>
+                                <h3>(3 stagioni)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100"src="assets/imgs/movies/16.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Grace and Frankie - Stagione 1  Trailer  Netflix Italia.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Grace e Frankie</h2>
+                                <h3>(7 stagioni)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/17.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/LASCIATI ANDARE (2017) di Francesco Amato - Trailer ufficiale HD.mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Lasciati Andare</h2>
+                                <h3>(1h 30min)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/11.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Ricatto damore trailer ita.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Patto d'amore</h2>
+                                <h3>(1h 48min)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/8.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Virgin River (Stagione 5)  Trailer in italiano  Netflix.mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Virgin River</h2>
+                                <h3>(5 stagioni)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/13.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Collateral Beauty - Teaser Trailer Italiano Ufficiale  HD.mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Collateral Beauty</h2>
+                                <h3>(1h 37min)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+</section>
+<!--anche qui ripeto la prima sezione cambiando titolo img card e trailer video -->
+<section class="container-fluid  text-white ps-4">
+    <div class="drama row">
+        <div class="col">
+            <h2 class="fs-4 mb-4">New Releases</h2>
+        </div>
+    </div>
+
+    
+    <div class="drama row animate-on-scroll hide-section">
+        <div class="swiper ps-3">
+            <div class="swiper-wrapper ">
+
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/1.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Unorthodox  - Trailer Ufficiale.mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Unorthodox</h2>
+                                <h3>(1 stagione)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/3.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Vis a Vis El Oasis  Trailer ufficiale (sottotitoli in ITALIANO)  Netflix Italia.mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Vis a Vis</h2>
+                                <h3>(4 stagioni)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/2.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/After Life  Trailer principale  Netflix Italia.mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>After Life</h2>
+                                <h3>(3 stagioni)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/6.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Brot (The Valhalla Murders) - Trailer.mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Valhalla</h2>
+                                <h3>(1 stagioni)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100"src="assets/imgs/movies/5.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Summertime  Trailer ufficiale  Netflix Italia.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Summertime</h2>
+                                <h3>(3 stagioni)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/7.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Alias Grace  Official Trailer [HD]  Netflix.mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Alias Grace</h2>
+                                <h3>(1 stagione)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/18.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/DOGMAN (2023) Trailer ITA del Film di Luc Besson con Caleb Landry Jones.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Dogman</h2>
+                                <h3>(1h 55min)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                                
+                               
+
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/1.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Unorthodox  - Trailer Ufficiale.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Unorthodox</h2>
+                                <h3>(1 stagione)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="Movie-Card">
+                        <img class="w-100" src="./assets/imgs/movies/3.png" alt="">
+                        <div class="movie-info">
+                            <video class="Virgin" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                <source src="./assets/imgs/movies/Vis a Vis El Oasis  Trailer ufficiale (sottotitoli in ITALIANO)  Netflix Italia.mp4" type="video/mp4"></source>
+                                </video>
+                                <div class="container-VR">
+                                <h2>Vis a Vis</h2>
+                                <h3>(4 stagioni)</h3>
+                                <ion-icon class="plus" name="add-circle"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+</section>
+
+<!--Parte finale del codice importo le icon  Social e tramite tag a le lego ai loro reali indirizzi  -->
+<footer>
+    <div class="container-fluid ">
+        <div class="row ">
+            <div class=" col-3 col-md-3 col-lg-4 mb-md-2 ">
+                <div class="Icon-Social d-flex justify-content-lg-end justify-content-center  align-items-center gap-3 ">
+                 <a href="https://www.facebook.com/?locale=it_IT"><ion-icon  name="logo-facebook"></ion-icon></a>
+                <a href="https://www.instagram.com/"><ion-icon  name="logo-instagram"></ion-icon></a>
+                <a href="https://x.com/"><ion-icon  name="logo-twitter"></ion-icon></a>
+                <a href="https://www.youtube.com/"><ion-icon  name="logo-youtube"></ion-icon></a>
+            </div>
+            </div>
+        </div>
+
+        <!--implementazione dell liste regolate in modo responsive tramite classi bootstrap-->
+
+        <div class="row">
+            <div class="col-3 col-md-3 col-lg-4 d-flex  justify-content-center justify-content-lg-end align-items mt-2  text-white">
+                <ul class="list-unstyled">
+                    <li>Audio and Subtitles</li>
+                    <li>Media Center</li>
+                    <li>Privacy</li>
+                    <li>Contact Us</li>
+                </ul>
+            </div>
+            <div class="col-2 col-md-3 col-lg-2 d-flex  justify-content-center align-items mt-2  text-white">
+                <ul class="list-unstyled">
+                    <li>Audio Description</li>
+                    <li>Investor Relations</li>
+                    <li>Legal Notices</li>
+                    
+                </ul>
+            </div>
+            <div class="col-3 col-md-3 col-lg-2 d-flex  justify-content-center align-items mt-2 text-white">
+                <ul class="list-unstyled">
+                    <li>Help Center</li>
+                    <li>Jobs</li>
+                    <li>Cookie Preferences</li>
+                    
+                </ul>
+            </div>
+            <div class="col-3 col-md-3 col-lg-2 d-flex justify-content-center align-items mt-2  text-white">
+                <ul class="list-unstyled">
+                    <li>Gift Cards</li>
+                    <li>Terms of Use</li>
+                    <li>Corporate Information</li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--implementazione del btn -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-6 ms-lg-4  ">
+                <div class="d-flex align-items-center  justify-content-sm-center  mt-2">
+               <button class="Btn-Service" type="button">Service Code</button>
+                </div>
+            </div>
+        </div>
+        <!--implementazione del copyright-->
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-7 ms-lg-4 mt-4">
+                
+                    <div class="d-flex align-items-center justify-content-md-center ">
+                    <p class="list-unstyled-p">© 1997-2019 Netflix,inc.{i-0d00fcda2fdf9c0de}</p>
+                    </div>
+            </div>
+            
+        </div>
+    </div>
+</footer>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="script.js"></script></script>
+  </body>
+</html>
